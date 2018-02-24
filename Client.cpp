@@ -4,10 +4,17 @@
 * Auteur: 
 *******************************************/
 
+
 #include "Client.h"
 #include "Fournisseur.h"
 
 
+
+Client::Client(const string & nom, const string & prenom, int identifiant, const string & codePostal, long date):Usager(nom, prenom, identifiant, codePostal), monPanier_(nullptr)
+{
+	dateNaissance_ = date;
+		
+}
 
 Client::~Client()
 {
@@ -53,11 +60,24 @@ void Client::modifierDateNaissance(long date)
 // Autres méthodes
 void Client::acheter(ProduitOrdinaire * prod)
 {
-	if (monPanier_ == nullptr)
+	if (monPanier_ == nullptr) {
+
 		monPanier_ = new Panier(this->obtenirIdentifiant());
-	monPanier_->ajouter(prod);
-	// obtenir une note aléatoire
+		monPanier_->ajouter(new Produit(*prod));
+
+	}
+
+	else {
+
+		monPanier_->ajouter(new Produit(*prod));
+
+	}
+	// obtenir 0ne note aléatoire
+	// il faut utiliser la methode noter(int)
 	
+
+	
+
 	// faire la mise à jour de la satisfaction au fournisseur
 	
 }
@@ -71,15 +91,21 @@ void Client::livrerPanier()
 
 
 void Client::miserProduit(ProduitAuxEncheres* produitAuxEncheres, double montantMise) {
-	// à faire
+	// à faire, not complete
+
+
+
+
 	
 }
 
 Client & Client::operator=(const Client & client)
 {
 	if (this != &client) {
-		Usager temp(*this);
-		temp = static_cast<Usager> (client);
+		this->modifierNom(client.obtenirNom());
+		this->modifierPrenom(client.obtenirPrenom());
+		this->modifierIdentifiant(client.obtenirIdentifiant());
+		this->modifierCodePostal(client.obtenirCodePostal());
 		dateNaissance_ = client.obtenirDateNaissance();
 		if (client.monPanier_ != nullptr) {
 			delete monPanier_;
@@ -95,10 +121,27 @@ Client & Client::operator=(const Client & client)
 }
 
 
+
+
 ostream & operator<<(ostream & os, const Client & client)
 {
+
+	os << "Client:";
+	os << static_cast<Usager>(client);
+
+	if (client.monPanier_ == nullptr) {
+
+		os << "Le panier de " << client.obtenirPrenom() << "Est vide !" << endl;
+	}
+
 	
-	// à faire
+
+	else {
+
+		os << "Le panier " << client.obtenirPrenom() << ":" << endl;
+		os << *(client.monPanier_);
+	}
+
 
 	return os;
 }

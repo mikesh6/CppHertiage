@@ -35,9 +35,8 @@ void ProduitAuxEncheres::modifierPrixBase(double prixBase)
 istream & operator>>(istream & is, ProduitAuxEncheres & produit)
 {
 
-	is >> produit;
-	is >> produit.prixBase_;
-	is >> produit.identifiantClient_;
+	is >> static_cast<Produit>(produit);
+
 	
 
 	return is;
@@ -45,13 +44,14 @@ istream & operator>>(istream & is, ProduitAuxEncheres & produit)
 
 ostream & operator<<(ostream & os, const ProduitAuxEncheres & produit)
 {
-	// TODO: insert return statement here
+	// est ce que on renentre le prix de base et le client id par cin ??
 
-	// TODO: insert return statement here
-	os << produit;
-	os << "prix" << produit.prixBase_;
-	os << "ID" << produit.identifiantClient_;
+	
+	os << static_cast<Produit>(produit);
+	os << "prix de base " << produit.obtenirPrixBase() << endl;  
+	os << "Identifinat client " << produit.obtenirIdentifiantClient() << endl;
 
+	
 
 	return os;
 

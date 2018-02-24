@@ -5,15 +5,20 @@
 *******************************************/
 
 #include "Panier.h"
+#include "ProduitOrdinaire.h"
 using namespace std;
 
 Panier::Panier(int idClient) {
 	// TODO
+	idClient_ = idClient;
+	totalAPayer_ = 0;
+	
 }
 
 
 Panier::~Panier()
 {
+
 	contenuPanier_.clear();
 }
 
@@ -41,6 +46,41 @@ double Panier::obtenirTotalApayer() const {
 double Panier::calculerTotalApayer()  const
 {
 	 // TODO
+	double total = 0; 
+
+	total = this->obtenirTotalApayer();
+
+
+
+	for (int i = 0; i < this->obtenirContenuPanier().size(); i++)
+	{
+
+		if (contenuPanier_[i]->retournerType() == TypeProduitAuxEncheres) 
+		{
+
+			
+			if (this->obtenirIdClient() == static_cast<ProduitAuxEncheres*>(contenuPanier_[i])->obtenirIdentifiantClient()) {
+
+
+				total += contenuPanier_[i]->obtenirPrix();
+
+
+			}
+
+		   
+			
+
+		}
+
+		
+
+
+	}
+
+
+
+
+	return total;
 }
 
 
@@ -62,7 +102,43 @@ void Panier::ajouter(Produit * prod)
 {
 	// TODO
 
-	contenuPanier_.push_back(prod);
+	
+
+	if (prod->retournerType() == TypeProduitOrdinaire) {
+		
+		if (static_cast<ProduitOrdinaire*>(prod)->obtenirEstTaxable() == true) {
+
+
+			double tax = 0.0;
+			tax = prod->obtenirPrix() * TAUX_TAXE;
+			totalAPayer_ += tax + prod->obtenirPrix();
+			contenuPanier_.push_back(new Produit(*prod));
+			
+			
+		}
+
+		else {
+
+			totalAPayer_ += prod->obtenirPrix();
+			contenuPanier_.push_back(new Produit(*prod));
+		}
+
+
+		
+		
+
+	}
+
+
+	else {
+
+
+
+		
+		contenuPanier_.push_back(new Produit(*prod));
+
+	}
+	
 }
 
 void Panier::livrer()
@@ -87,6 +163,49 @@ Produit* Panier::trouverProduitPlusCher()
 ostream & operator<<(ostream & os,  const Panier & panier)
 {
 	// TODO
+
+	
+	
+	
+
+	for(int i=0; i < panier.contenuPanier_.size(); i++){
+
+		if (panier.contenuPanier_[i]->retournerType() == TypeProduitAuxEncheres){
+
+			os << "Produit aux enchers " << *(static_cast<ProduitAuxEncheres*>(panier.contenuPanier_[i]));
+		
+
+		}
+			
+
+		else 
+		{
+			if ((panier.contenuPanier_[i]->retournerType() == TypeProduitOrdinaire)) {
+
+				
+
+				os << " Produit Ordinaire " << *(static_cast<ProduitOrdinaire*>(panier.contenuPanier_[i]));
+			}
+
+			
+			
+			
+		}
+	
+
+	}
+
+
+	os << "---->" << "total a payer  " << panier.obtenirTotalApayer() << endl;
+	//os << "total " << panier.calculerTotalApayer(); 
+	//os << "total  obtenir " << panier.obtenirTotalApayer(); 
+
+
+	
+
+	
+
+
 
 
 	return os;

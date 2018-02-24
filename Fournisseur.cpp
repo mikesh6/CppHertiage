@@ -15,6 +15,7 @@ Fournisseur::Fournisseur(const string & nom, const string & prenom, int identifi
 		satisfaction_.niveaux_[i] = 0;
 	}
 
+
 }
 
 vector<Produit*> Fournisseur::obtenirCatalogue() const
@@ -72,17 +73,28 @@ Fournisseur & Fournisseur::operator=(const Fournisseur & fournisseur)
 	// TODO: insert return statement here
 	
 
-	this->obtenirNom() = fournisseur.obtenirNom();
-	this->obtenirPrenom() = fournisseur.obtenirPrenom();
-	this->obtenirCodePostal() = fournisseur.obtenirCodePostal();
-	this->obtenirSatisfaction() = fournisseur.obtenirSatisfaction();
+	if (this != &fournisseur) {
 
-	// copy the pointer 
+		*(static_cast<Usager*>(this)) = static_cast<Usager>(fournisseur);
 
-
-
+	}
 
 	
+	this->contenuCatalogue_ = fournisseur.contenuCatalogue_;
+
+	for (int i = 0; i < NIVEAUX_SATISFACTION; i++) {
+
+		this->satisfaction_.niveaux_[i] = fournisseur.satisfaction_.niveaux_[i];
+
+
+	}
+	
+
+
+
+
+
+	return *this;
 
 
 
@@ -94,9 +106,10 @@ ostream & operator<<(ostream & os, Fournisseur & fournisseur)
 {
 	// TODO: insert return statement here
 
-	static_cast<Usager>(fournisseur);
+	
+	os << "Fournisseur: ";
+	os << static_cast<Usager>(fournisseur);
 
-	os << fournisseur;
 	for (int i = 0; i < fournisseur.contenuCatalogue_.size(); i++) {
 		os << "----> ";
 		os << *(fournisseur.contenuCatalogue_[i]) << endl;
@@ -105,10 +118,11 @@ ostream & operator<<(ostream & os, Fournisseur & fournisseur)
 	}
 
 
-	os << "Satisfication " << endl;
+	os << "notes 0:0" << endl;
 	for (int i = 0; i < NIVEAUX_SATISFACTION; i++) {
 
-		os << fournisseur.satisfaction_.niveaux_[i];
+	
+		os << i << ":"<< fournisseur.satisfaction_.niveaux_[i] << endl;
 	}
 	
 	

@@ -25,14 +25,23 @@ const int  NB_PRODUCTS = 15;
 
 int main()
 {
+
+
 	// Creez un objet de classe client à l'aide du constructeur
-	Client martine("Bellaiche", "Martine", 1111, "H2T3A6", 199004);
+	Client martine("Bellaiche", "Martine", 1111, "H2T3A6", 199004); 
+
+	
+	
 
 	// creez un objet de la classe client à l'aide du constructeur de copie
 	// et modifier sonm identifiant
+
+	
 	Client maCopie(martine);
 	maCopie.modifierIdentifiant(777);
 
+	
+	
 	// vérifier si les copies sont identiques;
 
 	if (maCopie == martine)
@@ -45,10 +54,15 @@ int main()
 
 	cout << unAutreClient;
 
+
+	
+	
 	// Creez un fournisseur
 	Fournisseur poly = Fournisseur("Ecole", "Polytechnique", 123456789, "H3T 1J4");
 	// afficher le fournisseur
 	cout << poly;
+
+	
 	// Creation de 15 Produits Ordinaire
 	ProduitOrdinaire* produits[NB_PRODUCTS];
 	double echantillonPrix[NB_PRODUCTS] =
@@ -67,7 +81,9 @@ int main()
 	// Afficher Panier du client
 	cout << martine;
 
+	
 	// afficher le fournisseur
+
 	cout << poly;
 
 	// Client mise sur le produit aux encheres 
@@ -84,6 +100,19 @@ int main()
 
 	// Afficher Panier du client
 	cout << martine << endl;
+	
+
+	//trouver le prodiuit le plus cher 
+	cout << "Produit le plus cher :";
+	cout << martine.obtenirPanier()->trouverProduitPlusCher() << endl;
+	
+
+	
+
+
+
+
+	return 0;
 
 	
 	

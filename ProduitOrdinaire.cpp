@@ -38,8 +38,8 @@ ostream & operator<<(ostream & os, const ProduitOrdinaire & produit)
 {
 	// TODO: insert return statement here
 
-	os << produit;
-	os << "Est taxable" << produit.estTaxable_;
+	os << static_cast<Produit>(produit);
+	os << "Est taxable: " << boolalpha << produit.estTaxable_ << endl;
 
 
 	return os;
